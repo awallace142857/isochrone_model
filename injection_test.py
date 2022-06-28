@@ -3,11 +3,6 @@ import pickle
 def diff_func(q,A):
 	return (-2.5*np.log10(2)-A)*q**2+A*q**3
 
-def find_mag_errors(flux_relative_error):
-	lower = 2.5*np.log10(1+1./flux_relative_error)
-	upper = -2.5*np.log10(1-1./flux_relative_error)
-	return [lower,upper]
-	
 def single_color_mag(mass,age,feh):
 	bands = ['b','g','r']
 	all_mags = []
@@ -122,35 +117,6 @@ def log_prob(theta,apparent_mags,parallax,relative_flux_errors,par_err):
                 prob[ii] = lp[ii] + llh[ii]
         return prob
 
-def max_age(mass,feh):
-	lifetime = 10*mass**(-2.5)+1.5*feh
-	offset = lifetime-10
-	maximum = lifetime
-	maximum[np.where(offset>0)] = 10
-	return maximum
-
-def random_metallicity(minFeH,maxFeH,nSystems):
-	alpha, beta = (10, 2)
-	z = stats.beta.rvs(alpha, beta, size=nSystems)
-	mode = (alpha-1)/(alpha+beta-2)
-	scale = maxFeH-minFeH
-	return scale*(z-mode)
-
-def random_age(mass,feh,nSystems):
-	min_age = 0.1
-	scale = max_age(mass,feh)-min_age
-	ages = min_age+scale*np.random.random(nSystems)
-	return ages
-
-def generate_systems(M1,Q,nSystems):
-	fehs = random_metallicity(-1,0.5,nSystems)
-	ages = random_age(M1,fehs,nSystems)
-	return [M1*np.ones(nSystems),Q*np.ones(nSystems),ages,fehs]
-"""m1 = np.linspace(0.2,1.8,10)
-q = np.logspace(-2,0,10)
-[M1s,Qs] = np.meshgrid(m1,q)
-m1s = M1s.flatten()
-qs = Qs.flatten()"""
 [isochrone_m1s,isochrone_qs,isochrone_ages,isochrone_fehs,[isochrone_bs,isochrone_gs,isochrone_rs]] = pickle.load(open('isochrone_grid.pkl', 'rb'))
 nMass = 81
 nFeH = 81
