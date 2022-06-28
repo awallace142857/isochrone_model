@@ -117,10 +117,12 @@ def log_prob(theta,apparent_mags,parallax,relative_flux_errors,par_err):
                 prob[ii] = lp[ii] + llh[ii]
         return prob
 
+#Load grid with magnitudes from isochrones
 [isochrone_m1s,isochrone_qs,isochrone_ages,isochrone_fehs,[isochrone_bs,isochrone_gs,isochrone_rs]] = pickle.load(open('isochrone_grid.pkl', 'rb'))
-nMass = 81
-nFeH = 81
-nAge = 81
+#Initialize testing grid
+nMass = 61
+nFeH = 61
+nAge = 61
 test_m1s = np.linspace(0.08,1.9,nMass)
 test_qs = np.linspace(0,1,nMass)
 test_fehs = np.linspace(-1,0.5,nFeH)
@@ -130,8 +132,10 @@ test_m1s = test_M1s.flatten()
 test_qs = test_Qs.flatten()
 test_fehs = test_FEHs.flatten()
 test_ages = test_AGEs.flatten()
+#Calculate magnitudes for test parameters
 [test_bs,test_gs,test_rs] = binary_color_mag(test_m1s,test_qs,test_ages,test_fehs)
 for ii in range(len(isochrone_m1s)):
+	#Compare isochrone magnitudes with values from model
 	diff = np.sqrt((isochrone_bs[ii]-test_bs)**2+(isochrone_gs[ii]-test_gs)**2+(isochrone_rs[ii]-test_rs)**2)
 	minEl = diff.argmin()
 	calculated_m1 = test_m1s[minEl]
