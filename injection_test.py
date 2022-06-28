@@ -139,5 +139,3 @@ for ii in range(len(isochrone_m1s)):
 	calculated_feh = test_fehs[minEl]
 	calculated_age = test_ages[minEl]
 	print(isochrone_m1s[ii],calculated_m1,isochrone_qs[ii],calculated_q,isochrone_fehs[ii],calculated_feh,isochrone_ages[ii],calculated_age)
-	#outString = str(M1[jj])+' '+str(calculated_m1)+' '+str(Q[jj])+' '+str(calculated_q)+' '+str(fehs[jj])+' '+str(calculated_feh)+' '+str(ages[jj])+' '+str(calculated_age)
-	#outFile.write(outString+'\n')#print(M1[jj],calculated_m1,Q[jj],calculated_q,fehs[jj],calculated_feh,ages[jj],calculated_age)
